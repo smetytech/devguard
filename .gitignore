@@ -1,0 +1,13 @@
+*.pyc
+__pycache__/
+*.log
+*.zip
+.env
+.DS_Store
+.vscode/
+.idea/
+*.sqlite3
+*.db
+node_modules/
+*.egg-info/
+coverage/
