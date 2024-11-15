@@ -8,11 +8,11 @@
 		sendWebSocketMessage
 	} from '$lib/scripts/websocket.script';
 	import { formatTimestamp } from '$lib/scripts/date.script';
-	import { CornerDownLeft } from 'lucide-svelte';
+	import { Message } from '$lib/components/other/message';
+	import { TerminalInput } from '$lib/components/other/terminal-input';
 
 	let messages: Array<IMessage> = $state([]);
-	let value: string = $state('');
-	let scrollContainer: HTMLDivElement | null = $state(null);
+	let scrollContainer: HTMLDivElement | null;
 
 	function scrollToBottom() {
 		if (!scrollContainer) {
@@ -22,13 +22,7 @@
 		scrollContainer.scrollTo({ top: scrollContainer.scrollHeight, behavior: 'smooth' });
 	}
 
-	async function handleSubmit(event: Event) {
-		event.preventDefault();
-
-		if (!value.trim()) {
-			return;
-		}
-
+	async function handleSubmit(value: string) {
 		sendWebSocketMessage(value);
 
 		messages = [
@@ -88,32 +82,10 @@
 
 		<div class="grow space-y-2 overflow-y-auto" bind:this={scrollContainer}>
 			{#each messages as message}
-				<span class="flex items-start gap-2">
-					<span
-						class="{message.type === MessageType.User
-							? 'text-green-500'
-							: 'text-muted-foreground'} shrink-0 text-sm leading-6"
-					>
-						~{message.name} %
-					</span>
-					<span class="break-all font-medium">{message.content}</span>
-					<span class="text-muted-foreground ml-auto text-sm leading-6">{message.timestamp}</span>
-				</span>
+				<Message {message} />
 			{/each}
 		</div>
 
-		<form class="bg-muted/75 flex items-center gap-2 rounded-xl pl-4" onsubmit={handleSubmit}>
-			<span class="text-green-500">~user % </span>
-
-			<input
-				class="placeholder:text-muted-foreground grow border-none bg-transparent py-4 outline-none"
-				type="text"
-				bind:value
-			/>
-
-			<div class="pr-4">
-				<CornerDownLeft />
-			</div>
-		</form>
+		<TerminalInput submit={handleSubmit} />
 	</div>
 </div>
