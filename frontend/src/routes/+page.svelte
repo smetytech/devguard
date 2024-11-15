@@ -10,7 +10,10 @@
 	import { formatTimestamp } from '$lib/scripts/date.script';
 	import { Message } from '$lib/components/other/message';
 	import { TerminalInput } from '$lib/components/other/terminal-input';
+	import { createChat } from 'src/lib/controllers/chat.controller';
+	import { createMessage } from 'src/lib/controllers/message.controller';
 
+	let chatId: string;
 	let messages: Array<IMessage> = $state([]);
 	let scrollContainer: HTMLDivElement | null;
 
@@ -41,19 +44,33 @@
 	}
 
 	async function handleWebSocketMessage(message: IMessage) {
-		messages = [...messages, { ...message, timestamp: formatTimestamp(message.timestamp) }];
+		try {
+			await createMessage(message, chatId);
 
-		await tick();
-		scrollToBottom();
+			messages = [...messages, { ...message, timestamp: formatTimestamp(message.timestamp) }];
+
+			await tick();
+			scrollToBottom();
+		} catch {
+			displayGeneralErrorToast();
+		}
 	}
 
 	function handleWebSocketError() {
 		displayGeneralErrorToast();
 	}
 
-	onMount(() => {
-		openWebSocket(handleWebSocketMessage, handleWebSocketError);
+	onMount(async () => {
+		try {
+			const { id } = await createChat();
+			chatId = id;
+			openWebSocket(id, handleWebSocketMessage, handleWebSocketError);
+		} catch {
+			displayGeneralErrorToast();
+		}
+	});
 
+	onMount(() => {
 		return () => {
 			closeWebSocket();
 		};

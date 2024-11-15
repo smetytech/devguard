@@ -1,13 +1,15 @@
 import { json } from '@sveltejs/kit';
 
-export async function POST({ locals: { supabase,user } }) {
-	
-	const { data, error } = await supabase.from("chats").insert({
-		user_id: user ? user.id : null,
-	}).select().single();
+export async function POST({ locals: { supabase, user } }) {
+	const { data, error } = await supabase
+		.from('chats')
+		.insert({
+			user_id: user ? user.id : null
+		})
+		.select('id')
+		.single();
 
 	if (error) {
-		
 		return json(error, { status: 500 });
 	}
 

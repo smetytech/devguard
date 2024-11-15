@@ -4,6 +4,7 @@ import type { IMessage } from '$lib/interfaces/message.interface';
 let socket: WebSocket | null = null;
 
 export function openWebSocket(
+	chatId: string,
 	onMessage: (message: IMessage) => void,
 	onError: (error: Event) => void
 ) {
@@ -11,7 +12,7 @@ export function openWebSocket(
 		return socket;
 	}
 
-	socket = new WebSocket(PUBLIC_WEBSOCKET_URL);
+	socket = new WebSocket(`${PUBLIC_WEBSOCKET_URL}/${chatId}`);
 
 	socket.onmessage = (event) => {
 		onMessage(JSON.parse(event.data));
