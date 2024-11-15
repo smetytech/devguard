@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { MessageType, type IMessage } from '$lib/interfaces/message.interface';
 	import { displayGeneralErrorToast } from '$lib/scripts/toast.script';
 	import {
@@ -12,8 +12,17 @@
 
 	let messages: Array<IMessage> = $state([]);
 	let value: string = $state('');
+	let scrollContainer: HTMLDivElement | null = $state(null);
 
-	function handleSubmit(event: Event) {
+	function scrollToBottom() {
+		if (!scrollContainer) {
+			return;
+		}
+
+		scrollContainer.scrollTo({ top: scrollContainer.scrollHeight, behavior: 'smooth' });
+	}
+
+	async function handleSubmit(event: Event) {
 		event.preventDefault();
 
 		if (!value.trim()) {
@@ -26,18 +35,15 @@
 			...messages,
 			{
 				type: MessageType.User,
-				name: 'User',
-				content: value,
-				timestamp: formatTimestamp(new Date())
-			},
-			{
-				type: MessageType.Tool,
-				name: 'DevGuard Agent',
+				name: 'user',
 				content: value,
 				timestamp: formatTimestamp(new Date())
 			}
 		];
 		value = '';
+
+		await tick();
+		scrollToBottom();
 	}
 
 	function handleWebSocketMessage(message: IMessage) {
@@ -45,7 +51,7 @@
 	}
 
 	function handleWebSocketError() {
-		// displayGeneralErrorToast();
+		displayGeneralErrorToast();
 	}
 
 	onMount(() => {
@@ -59,7 +65,7 @@
 
 <div class="h-[calc(100dvh-4.5rem)] p-4 lg:p-6">
 	<div
-		class="flex h-full w-full flex-col gap-4 rounded-xl bg-gradient-to-br from-[#F4F4F4] to-[#C7C7C9] p-4 font-mono dark:from-[#64636B] dark:to-[#1F1F29]"
+		class="flex h-full w-full flex-col gap-6 rounded-xl bg-gradient-to-br from-[#F4F4F4] to-[#C7C7C9] p-4 font-mono dark:from-[#4E4E54] dark:to-[#1F1F29]"
 	>
 		<div class="flex items-center justify-center">
 			<div class="flex items-center gap-1.5">
@@ -77,28 +83,24 @@
 			</div>
 		</div>
 
-		<div class="grow space-y-1 overflow-y-auto">
+		<div class="grow space-y-2 overflow-y-auto" bind:this={scrollContainer}>
 			{#each messages as message}
-				{#if message.type === MessageType.User}
-					<div class="flex items-center gap-2.5 p-4">
-						<span class="text-muted-foreground text-sm">{message.timestamp}</span>
-						<span class="font-medium">{message.content}</span>
-					</div>
-				{:else}
-					<div class="flex items-center gap-2.5">
-						<span class="text-muted-foreground text-sm opacity-0">{message.timestamp}</span>
-
-						<div class="bg-background/40 dark:bg-background/25 grow rounded-xl p-4">
-							<span class="text-muted-foreground block text-xs">{message.name}</span>
-							<span class="block">{message.content}</span>
-						</div>
-					</div>
-				{/if}
+				<span class="flex">
+					<span
+						class="{message.type === MessageType.User
+							? 'text-green-500'
+							: 'text-muted-foreground'} text-sm leading-6"
+					>
+						~{message.name} %&nbsp;
+					</span>
+					<span class="font-medium">{message.content}</span>
+					<span class="text-muted-foreground ml-auto text-sm leading-6">{message.timestamp}</span>
+				</span>
 			{/each}
 		</div>
 
 		<form class="bg-muted/75 flex items-center gap-2 rounded-xl pl-4" onsubmit={handleSubmit}>
-			<span class="text-green-500">~user</span>
+			<span class="text-green-500">~user % </span>
 
 			<input
 				class="placeholder:text-muted-foreground grow border-none bg-transparent py-4 outline-none"
