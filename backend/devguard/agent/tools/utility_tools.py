@@ -1,45 +1,29 @@
-from langchain_community.tools import DuckDuckGoSearchResults, ShellTool
+from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.tools import tool
+from agent.tools.utils import _run_shell_command
 
-
-@tool
-def web_search(query: str) -> str:
-    """Use this to search on the web"""
-    search = DuckDuckGoSearchResults(num_results=10)
-    return search.invoke(query)
+# @tool
+# def web_search(query: str) -> str:
+#     """Use this to search on the web for a specific user information."""
+#     search = DuckDuckGoSearchResults(num_results=10)
+#     return search.invoke(query)
 
 
 @tool
 def execute_shell_command(commands: list[str]) -> str:
     """Execute a sequence of shell commands. Provide a list of commands to execute in order."""
-    shell_tool = ShellTool()
-    try:
-        result = shell_tool.run({"commands": commands})
-        return result
-    except Exception as e:
-        return f"An exception occurred: {str(e)}"
+    return _run_shell_command("; ".join(commands))
 
 
 @tool
 def execute_python_command(file_path: str) -> str:
     """Execute a python command. Provide a file_path to execute it with python ."""
-    shell_tool = ShellTool()
-    try:
-        result = shell_tool.run({"commands": f"python {file_path}"})
-        return result
-    except Exception as e:
-        return f"An exception occurred: {str(e)}"
-
+    return _run_shell_command(f"python {file_path}")
 
 @tool
 def execute_pip_command(pkgs: list[str]) -> str:
     """Execute a sequence of pip commands. Provide a list of python packages to install in order."""
-    shell_tool = ShellTool()
-    try:
-        result = shell_tool.run({"commands": [f"python -m pip install {pkg}" for pkg in pkgs]})
-        return result
-    except Exception as e:
-        return f"An exception occurred: {str(e)}"
+    return _run_shell_command(f"python -m pip install {' '.join(pkgs)}")
 
 @tool
 def read_file(filepath: str) -> str:
@@ -63,21 +47,19 @@ def write_file(filepath: str, content: str) -> str:
     except Exception as e:
         return f"An error occurred while writing to the file: {str(e)}"
 
+
 @tool
 def check_tool_is_installed(command: str) -> str:
-    """Use this to see if a tool is installed
-    Args:
-        command: Command to test if a tool is installed, usually it has a flag -v or --version
-    """
-    shell_tool = ShellTool()
-    return shell_tool.run({"commands": [command]})
-    
-tools = [
-    web_search,
+    """Use this to see if a tool is installed."""
+    return _run_shell_command(f"{command} --version")
+
+
+utility_tools = [
+    # web_search,
     execute_shell_command,
     read_file,
     write_file,
     check_tool_is_installed,
-    execute_pip_command,
-    execute_python_command
+    execute_python_command,
+    execute_pip_command
 ]
