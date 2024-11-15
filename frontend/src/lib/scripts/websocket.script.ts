@@ -14,6 +14,7 @@ export function openWebSocket(
 	socket = new WebSocket(PUBLIC_WEBSOCKET_URL);
 
 	socket.onmessage = (event) => {
+		console.log(event.data);
 		onMessage(JSON.parse(event.data));
 	};
 

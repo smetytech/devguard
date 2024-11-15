@@ -14,19 +14,22 @@
 </script>
 
 <div class="relative grid h-screen lg:grid-cols-2">
-	<div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
-		<div
-			class="absolute inset-0 bg-[url(https://images.unsplash.com/photo-1590069261209-f8e9b8642343?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1376&q=80)] bg-cover"
-		></div>
+	<div class="relative hidden h-full flex-col p-10 text-white lg:flex dark:border-r">
+		<div class="absolute inset-0 bg-[url('/assets/images/auth.png')] bg-cover bg-center"></div>
 
-		<span class="relative block text-lg font-medium">DevGuard</span>
+		<div class="relative flex items-center gap-2">
+			<img class="h-10 w-10" src="/assets/icons/devguard.svg" alt="DevGuard Agent" />
+
+			<span class="relative block text-xl font-medium text-[#CAD1E9]">DevGuard Agent</span>
+		</div>
+
 		<div class="relative mt-auto">
 			<blockquote class="space-y-2">
-				<p>
-					&ldquo;This library has saved me countless hours of work and helped me deliver stunning
-					designs to my clients faster than ever before. Highly recommended!&rdquo;
+				<p class="text-lg">
+					&ldquo;DevGuard scans your code for vulnerabilities, detects data leaks, and ensures your
+					systems are ready to withstand emerging threats.&rdquo;
 				</p>
-				<footer class="text-sm">Mihnea Huțuțui</footer>
+				<footer>DevGuard Agent</footer>
 			</blockquote>
 		</div>
 	</div>

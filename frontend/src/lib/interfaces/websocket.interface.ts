@@ -1,4 +1,8 @@
+export enum WebSocketMessageAction {
+	SCAN = 'SCAN'
+}
+
 export interface IWebSocketMessage {
-	action: string;
+	action: WebSocketMessageAction;
 	content: string;
 }
