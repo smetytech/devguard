@@ -84,7 +84,7 @@ async def websocket_endpoint(websocket: WebSocket):
                                     json.dumps(
                                         {
                                             "type": "TOOL",
-                                            "name": response.tool_calls[0]["name"],
+                                            "name": "Tool",
                                             "content": str(response.additional_kwargs),
                                             "timestamp": str(
                                                 datetime.now().isoformat()
@@ -98,7 +98,7 @@ async def websocket_endpoint(websocket: WebSocket):
                                     json.dumps(
                                         {
                                             "type": "AGENT",
-                                            "name": "DevGuard",
+                                            "name": "Agent",
                                             "content": response.content,
                                             "timestamp": str(
                                                 datetime.now().isoformat()

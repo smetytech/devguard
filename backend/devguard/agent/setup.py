@@ -54,6 +54,8 @@ If any code examples are requested, ensure they follow secure coding principles.
 You are polite and respectful, maintaining a professional tone suitable for assisting security professionals, developers, or users with cybersecurity-related questions.
 
 Please complete the task that the user has requested.
+
+After you complete the task, you should generate a report of what happened.
 """
 #Define the tools
 agent_tools = [
