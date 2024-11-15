@@ -1,10 +1,10 @@
 import { PUBLIC_WEBSOCKET_URL } from '$env/static/public';
-import type { IWebSocketMessage } from '$lib/interfaces/websocket.interface';
+import type { IMessage } from '$lib/interfaces/message.interface';
 
 let socket: WebSocket | null = null;
 
 export function openWebSocket(
-	onMessage: (message: IWebSocketMessage) => void,
+	onMessage: (message: IMessage) => void,
 	onError: (error: Event) => void
 ) {
 	if (socket) {
@@ -14,7 +14,6 @@ export function openWebSocket(
 	socket = new WebSocket(PUBLIC_WEBSOCKET_URL);
 
 	socket.onmessage = (event) => {
-		console.log(event.data);
 		onMessage(JSON.parse(event.data));
 	};
 
@@ -37,10 +36,10 @@ export function closeWebSocket() {
 	socket.close();
 }
 
-export function sendWebSocketMessage(message: IWebSocketMessage) {
+export function sendWebSocketMessage(message: string) {
 	if (!socket || socket.readyState !== WebSocket.OPEN) {
 		return;
 	}
 
-	socket.send(JSON.stringify(message));
+	socket.send(message);
 }

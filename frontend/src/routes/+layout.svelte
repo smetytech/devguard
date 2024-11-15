@@ -25,7 +25,7 @@
 				/>
 			</a>
 
-			<span class="block font-semibold">DevGuard Agent</span>
+			<span class="block font-medium">DevGuard Agent</span>
 
 			{#if user}
 				<UserMenu {user} />

@@ -49,7 +49,11 @@
 	>
 		<Avatar.Root class="rounded-lg">
 			<Avatar.Image class="rounded-none" src={profilePicture} alt={displayName} />
-			<Avatar.Fallback class="rounded-none">{abbreviatedDisplayName}</Avatar.Fallback>
+			<Avatar.Fallback
+				class="text-background dark:text-foreground rounded-none bg-gradient-to-br from-[#B67EFD] via-[#FF8EC1] to-[#FFAB8F]"
+			>
+				{abbreviatedDisplayName}
+			</Avatar.Fallback>
 		</Avatar.Root>
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content class="w-max" side="bottom" align="end">

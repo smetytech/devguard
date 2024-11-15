@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import {
-		WebSocketMessageAction,
-		type IWebSocketMessage
-	} from '$lib/interfaces/websocket.interface';
+	import { MessageType, type IMessage } from '$lib/interfaces/message.interface';
 	import { displayGeneralErrorToast } from '$lib/scripts/toast.script';
 	import {
 		closeWebSocket,
 		openWebSocket,
 		sendWebSocketMessage
 	} from '$lib/scripts/websocket.script';
+	import { formatTimestamp } from '$lib/scripts/date.script';
+	import { CornerDownLeft } from 'lucide-svelte';
 
-	let messages: Array<string> = $state([]);
+	let messages: Array<IMessage> = $state([]);
 	let value: string = $state('');
 
 	function handleSubmit(event: Event) {
@@ -21,20 +20,32 @@
 			return;
 		}
 
-		sendWebSocketMessage({ action: WebSocketMessageAction.SCAN, content: value });
+		sendWebSocketMessage(value);
 
-		messages = [...messages, `> ${value}`];
+		messages = [
+			...messages,
+			{
+				type: MessageType.User,
+				name: 'User',
+				content: value,
+				timestamp: formatTimestamp(new Date())
+			},
+			{
+				type: MessageType.Tool,
+				name: 'DevGuard Agent',
+				content: value,
+				timestamp: formatTimestamp(new Date())
+			}
+		];
 		value = '';
 	}
 
-	function handleWebSocketMessage(message: IWebSocketMessage) {
-		if (message.action === WebSocketMessageAction.SCAN) {
-			messages = [...messages, `${message.content}`];
-		}
+	function handleWebSocketMessage(message: IMessage) {
+		messages = [...messages, { ...message, timestamp: formatTimestamp(message.timestamp) }];
 	}
 
 	function handleWebSocketError() {
-		displayGeneralErrorToast();
+		// displayGeneralErrorToast();
 	}
 
 	onMount(() => {
@@ -46,28 +57,57 @@
 	});
 </script>
 
-<div class="h-[calc(100dvh-4.5rem)] p-4 pt-0 lg:p-6 lg:pt-0">
-	<div class="bg-muted flex h-full w-full flex-col rounded-xl font-mono">
-		<div class="grow overflow-y-auto p-4">
+<div class="h-[calc(100dvh-4.5rem)] p-4 lg:p-6">
+	<div
+		class="flex h-full w-full flex-col gap-4 rounded-xl bg-gradient-to-br from-[#F4F4F4] to-[#C7C7C9] p-4 font-mono dark:from-[#64636B] dark:to-[#1F1F29]"
+	>
+		<div class="flex items-center justify-center">
+			<div class="flex items-center gap-1.5">
+				<span class="h-3.5 w-3.5 rounded-full bg-[#ED6A5E]"></span>
+				<span class="h-3.5 w-3.5 rounded-full bg-[#F4BF4F]"></span>
+				<span class="h-3.5 w-3.5 rounded-full bg-[#61C554]"></span>
+			</div>
+
+			<span class="mx-auto block w-fit text-center text-sm">Terminal</span>
+
+			<div class="flex items-center gap-1.5 opacity-0">
+				<span class="h-3.5 w-3.5 rounded-full bg-[#ED6A5E]"></span>
+				<span class="h-3.5 w-3.5 rounded-full bg-[#F4BF4F]"></span>
+				<span class="h-3.5 w-3.5 rounded-full bg-[#61C554]"></span>
+			</div>
+		</div>
+
+		<div class="grow space-y-1 overflow-y-auto">
 			{#each messages as message}
-				<p>{message}</p>
+				{#if message.type === MessageType.User}
+					<div class="flex items-center gap-2.5 p-4">
+						<span class="text-muted-foreground text-sm">{message.timestamp}</span>
+						<span class="font-medium">{message.content}</span>
+					</div>
+				{:else}
+					<div class="flex items-center gap-2.5">
+						<span class="text-muted-foreground text-sm opacity-0">{message.timestamp}</span>
+
+						<div class="bg-background/40 dark:bg-background/25 grow rounded-xl p-4">
+							<span class="text-muted-foreground block text-xs">{message.name}</span>
+							<span class="block">{message.content}</span>
+						</div>
+					</div>
+				{/if}
 			{/each}
 		</div>
 
-		<form class="flex items-center gap-2" onsubmit={handleSubmit}>
-			<div class="relative w-full">
-				<span
-					class="absolute left-4 top-1/2 flex w-4 -translate-y-1/2 items-center justify-center text-green-500"
-				>
-					$
-				</span>
+		<form class="bg-muted/75 flex items-center gap-2 rounded-xl pl-4" onsubmit={handleSubmit}>
+			<span class="text-green-500">~user</span>
 
-				<input
-					class="placeholder:text-muted-foreground w-full border-none bg-transparent p-4 pl-10 outline-none"
-					type="text"
-					placeholder="Type a command..."
-					bind:value
-				/>
+			<input
+				class="placeholder:text-muted-foreground grow border-none bg-transparent py-4 outline-none"
+				type="text"
+				bind:value
+			/>
+
+			<div class="pr-4">
+				<CornerDownLeft />
 			</div>
 		</form>
 	</div>
