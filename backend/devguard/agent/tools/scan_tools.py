@@ -1,6 +1,6 @@
 
 from langchain_core.tools import tool
-from tools.utils import _install_tool, _run_shell_command
+from agent.tools.utils import _install_tool, _run_shell_command
 
 @tool
 def scan_trivy(target: str = ".") -> str:
@@ -49,8 +49,11 @@ def install_trivy() -> str:
     )
 
 
-@tool
-def check_tool_is_installed(command: str) -> str:
-    """Use this to see if a tool is installed."""
-    return _run_shell_command(f"{command} --version")
-
+scan_tools = [
+    scan_trivy,
+    scan_trufflehog,
+    scan_sensitive_data,
+    install_safety,
+    install_trufflehog,
+    install_trivy,
+]

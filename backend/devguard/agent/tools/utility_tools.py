@@ -1,6 +1,6 @@
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.tools import tool
-from tools.utils import _run_shell_command
+from agent.tools.utils import _run_shell_command
 
 @tool
 def web_search(query: str) -> str:
@@ -46,3 +46,20 @@ def write_file(filepath: str, content: str) -> str:
         return f"File {filepath} has been overwritten successfully."
     except Exception as e:
         return f"An error occurred while writing to the file: {str(e)}"
+
+
+@tool
+def check_tool_is_installed(command: str) -> str:
+    """Use this to see if a tool is installed."""
+    return _run_shell_command(f"{command} --version")
+
+
+utility_tools = [
+    web_search,
+    execute_shell_command,
+    read_file,
+    write_file,
+    check_tool_is_installed,
+    execute_python_command,
+    execute_pip_command
+]

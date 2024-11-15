@@ -1,22 +1,19 @@
-from typing import List
-import uuid
-from pydantic import BaseModel
-from agent.utils import print_stream, return_stream
+from config import OPEN_API_KEY
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
-from agent.tools import tools
-from config import OPEN_API_KEY
-from langchain_core.tools import tool
 
-#Create the OpenAI Model
+from agent.tools.scan_tools import scan_tools
+from agent.tools.utility_tools import utility_tools
+
+# Create the OpenAI Model
 model = ChatOpenAI(
     model="gpt-4o-mini",
     temperature=0,
     openai_api_key=OPEN_API_KEY,
 )
 
-#Create the memory space
+# Create the memory space
 memory = MemorySaver()
 
 SYSTEM_PROMPT = """
@@ -53,7 +50,9 @@ You are polite and respectful, maintaining a professional tone suitable for assi
 At the start of the conversation, you should create a folder where you will do all your tasks. The folder should be named as a `workspace`. To create a folder, use the `mkdir` command. Use only the `workspace` directory.
 """
 
-#Create the agent
+tools = [*scan_tools, *utility_tools]
+
+# Create the agent
 graph = create_react_agent(
     model, tools=tools, state_modifier=SYSTEM_PROMPT, checkpointer=memory
 )
