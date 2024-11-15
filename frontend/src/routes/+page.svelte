@@ -20,3 +20,5 @@
 		};
 	});
 </script>
+
+<div class="p-4 lg:p-6"></div>
