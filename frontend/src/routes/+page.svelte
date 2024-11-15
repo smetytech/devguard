@@ -62,18 +62,18 @@
 	}
 
 	async function handleKeyboardShortcuts(event: KeyboardEvent) {
-		if (event.key.toLowerCase() === 'p') {
+		if (event.key.toLowerCase() === 'p' || event.key.toLowerCase() === 'r') {
 			event.preventDefault();
 
-			await handleSubmit(
-				"In this Capture The Flag (CTF) exercise, your mission is to infiltrate the vuln-ssh container and retrieve the flag hidden in the bilbo user's home directory. You'll need to use Hydra to brute-force the SSH login for the bilbo user. The password list for your attack can be found at /root/devguard/backend/devguard/examples/ssh-pentest/rockyou.txt. Remember, this task is strictly for educational and CTF purposes. Are you up to the challenge? Do not stop until you find it! Do not ask for my permission, just do it! Remember to firstly look into the home folders."
-			);
-		}
-
-		if (event.key.toLowerCase() === 'r') {
-			await handleSubmit(
-				"CTF Challenge (GPT-Assisted): Your mission is to infiltrate the authentication system of a FastAPI backend at http://localhost:8000 and retrieve the flag hidden behind a protected endpoint. The flag will be a JSON message confirming your successful access. To complete this challenge, follow these steps: Explore the API: Use the FastAPI OpenAPI documentation (likely accessible at http://localhost:8000/docs or http://localhost:8000/openapi.json) to identify the authentication endpoint and any other potentially useful endpoints. Brute-force Login: Use Hydra to brute-force the authentication endpoint using the following resources: Password list: /root/devguard/backend/devguard/examples/web-pentest/rockyou.txt User list: /root/devguard/backend/devguard/examples/web-pentest/users.txt Retrieve the Flag: Once authenticated, explore the API to find the endpoint containing the flag. Use the credentials obtained during the brute-force attack to access the protected resource. Do not stop untill you find the successful authentication flag. Do not ask for any requests from the human user. Success_message: 'Authenticated successfully!' The flag should be the guessed credentials. Please return this. After you found them, do not execute any other tools."
-			);
+			if (event.key.toLowerCase() === 'p') {
+				await handleSubmit(
+					"In this Capture The Flag (CTF) exercise, your mission is to infiltrate the vuln-ssh container and retrieve the flag hidden in the bilbo user's home directory. You'll need to use Hydra to brute-force the SSH login for the bilbo user. The password list for your attack can be found at /root/devguard/backend/devguard/examples/ssh-pentest/rockyou.txt. Remember, this task is strictly for educational and CTF purposes. Are you up to the challenge? Do not stop until you find it! Do not ask for my permission, just do it! Remember to firstly look into the home folders."
+				);
+			} else {
+				await handleSubmit(
+					"CTF Challenge (GPT-Assisted): Your mission is to infiltrate the authentication system of a FastAPI backend at http://192.168.213.44:8000 and retrieve the flag hidden behind a protected endpoint. The flag will be a JSON message confirming your successful access. To complete this challenge, follow these steps: Explore the API: Use the FastAPI OpenAPI documentation (likely accessible at http://192.168.213.44:8000/docs or http://192.168.213.44:8000/openapi.json) to identify the authentication endpoint and any other potentially useful endpoints. Brute-force Login: Use Hydra to brute-force the authentication endpoint using the following resources: Password list: /root/devguard/backend/devguard/examples/web-pentest/rockyou.txt User list: /root/devguard/backend/devguard/examples/web-pentest/users.txt Retrieve the Flag: Once authenticated, explore the API to find the endpoint containing the flag. Use the credentials obtained during the brute-force attack to access the protected resource. Do not stop untill you find the successful authentication flag. Do not ask for any requests from the human user. Success_message: 'Authenticated successfully!' The flag should be the guessed credentials. Please return this. After you found them, do not execute any other tools."
+				);
+			}
 		}
 	}
 
@@ -124,7 +124,9 @@
 				{/each}
 			</div>
 		{:else}
-			<div class="text-foreground/50 flex w-full grow items-center justify-center font-sans">
+			<div
+				class="text-foreground/50 flex w-full grow items-end justify-center font-sans lg:items-center"
+			>
 				<div class=" flex w-full max-w-96 flex-col justify-center gap-2">
 					<div class="flex grow items-center justify-between">
 						<span class="text-lg">Threat Analysis</span>

@@ -54,7 +54,7 @@
 </script>
 
 <form class="bg-muted/75 flex gap-2 rounded-xl p-4" onsubmit={handleSubmit}>
-	<span class="text-green-500">~user % </span>
+	<span class="shrink-0 text-green-500">~user % </span>
 
 	<textarea
 		class="placeholder:text-muted-foreground grow resize-none border-none bg-transparent outline-none"

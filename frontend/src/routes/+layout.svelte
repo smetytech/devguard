@@ -17,15 +17,14 @@
 <div>
 	{#if !isAuthRoute}
 		<header class="flex items-center justify-between p-4 lg:px-6">
-			<a href="/">
+			<a class="flex items-center gap-2" href="/">
 				<img
 					class="h-10 w-10"
 					src="/assets/icons/devguard{$mode && $mode === 'dark' ? '-dark' : ''}.svg"
 					alt="DevGuard"
 				/>
+				<span class="font-medium">DevGuard Agent</span>
 			</a>
-
-			<span class="block font-medium">DevGuard Agent</span>
 
 			{#if user}
 				<UserMenu {user} />
