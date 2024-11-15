@@ -46,8 +46,11 @@
 		scrollToBottom();
 	}
 
-	function handleWebSocketMessage(message: IMessage) {
+	async function handleWebSocketMessage(message: IMessage) {
 		messages = [...messages, { ...message, timestamp: formatTimestamp(message.timestamp) }];
+
+		await tick();
+		scrollToBottom();
 	}
 
 	function handleWebSocketError() {
@@ -85,15 +88,15 @@
 
 		<div class="grow space-y-2 overflow-y-auto" bind:this={scrollContainer}>
 			{#each messages as message}
-				<span class="flex">
+				<span class="flex items-start gap-2">
 					<span
 						class="{message.type === MessageType.User
 							? 'text-green-500'
-							: 'text-muted-foreground'} text-sm leading-6"
+							: 'text-muted-foreground'} shrink-0 text-sm leading-6"
 					>
-						~{message.name} %&nbsp;
+						~{message.name} %
 					</span>
-					<span class="font-medium">{message.content}</span>
+					<span class="break-all font-medium">{message.content}</span>
 					<span class="text-muted-foreground ml-auto text-sm leading-6">{message.timestamp}</span>
 				</span>
 			{/each}
