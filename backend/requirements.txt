@@ -7,9 +7,31 @@ uvicorn[standard]==0.32.0
 # WebSocket support
 websockets==11.0.3
 
-# Optional: Add tools like Trivy and Trufflehog if their integrations are pip-based
-# trivy==0.x.x (if available via pip, otherwise use system installation)
-# trufflehog==3.x.x (if available via pip)
 
-# Logging library (optional, but useful)
-loguru==0.7.0
+# Terminal text color and formatting
+colorama==0.4.6
+
+# LangChain libraries for AI/ML tasks
+langchain-experimental==0.3.3
+langchain-community==0.3.7
+langchain-core==0.3.18
+langchain-openai==0.2.8
+langgraph==0.2.48
+
+# Data validation and settings management
+pydantic==2.9.2
+
+# Environment variable management
+python-dotenv==1.0.1
+
+# GitHub API wrapper
+PyGithub==2.1.1
+
+# HTTP client for Python
+requests==2.31.0
+
+# JSON Web Token implementation
+PyJWT==2.8.0
+
+# YAML parser and emitter
+PyYAML==6.0.1

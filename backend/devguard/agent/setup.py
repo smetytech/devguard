@@ -55,7 +55,7 @@ You are polite and respectful, maintaining a professional tone suitable for assi
 
 Please complete the task that the user has requested.
 """
-
+#Define the tools
 agent_tools = [
     *security_tools,
     *utility_tools,
@@ -66,6 +66,7 @@ agent_tools = [
     *curl_tools,
 ]
 
+#Create the agent
 graph = create_react_agent(
     model,
     tools=agent_tools,

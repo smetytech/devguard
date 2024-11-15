@@ -1,3 +1,4 @@
+# Function that prints a stream of messages
 def print_stream(stream):
     """Prints a stream of messages in a human-readable format."""
     for s in stream:

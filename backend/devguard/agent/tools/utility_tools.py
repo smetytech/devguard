@@ -1,7 +1,9 @@
 from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.tools import tool
+
 from agent.tools.utils import _run_shell_command
 
+# Web search functionality (currently commented out)
 # @tool
 # def web_search(query: str) -> str:
 #     """Use this to search on the web for a specific user information."""
@@ -12,28 +14,36 @@ from agent.tools.utils import _run_shell_command
 @tool
 def execute_shell_command(commands: list[str]) -> str:
     """Execute a sequence of shell commands. Provide a list of commands to execute in order."""
+    # Join the commands with semicolons and execute them using _run_shell_command
     return _run_shell_command("; ".join(commands))
 
 
 @tool
 def execute_python_command(file_path: str) -> str:
     """Execute a python command. Provide a file_path to execute it with python ."""
+    # Run the Python file using the python interpreter
     return _run_shell_command(f"python {file_path}")
+
 
 @tool
 def execute_pip_command(pkgs: list[str]) -> str:
     """Execute a sequence of pip commands. Provide a list of python packages to install in order."""
+    # Use pip to install the specified packages
     return _run_shell_command(f"python -m pip install {' '.join(pkgs)}")
+
 
 @tool
 def read_file(filepath: str) -> str:
     """Read the contents of a file and return as a string."""
     try:
+        # Open and read the file
         with open(filepath, "r") as file:
             return file.read()
     except FileNotFoundError:
+        # Handle case where file is not found
         return "Error: File not found."
     except Exception as e:
+        # Handle any other exceptions that may occur
         return f"An error occurred while reading the file: {str(e)}"
 
 
@@ -41,25 +51,29 @@ def read_file(filepath: str) -> str:
 def write_file(filepath: str, content: str) -> str:
     """Write content to a file, overwriting existing content."""
     try:
+        # Open the file in write mode and write the content
         with open(filepath, "w") as file:
             file.write(content)
         return f"File {filepath} has been overwritten successfully."
     except Exception as e:
+        # Handle any exceptions that may occur during writing
         return f"An error occurred while writing to the file: {str(e)}"
 
 
 @tool
 def check_tool_is_installed(command: str) -> str:
     """Use this to see if a tool is installed."""
+    # Run the command with --version flag to check if it's installed
     return _run_shell_command(f"{command} --version")
 
 
+# List of utility tools available for use
 utility_tools = [
-    # web_search,
+    # web_search,  # Commented out web search tool
     execute_shell_command,
     read_file,
     write_file,
     check_tool_is_installed,
     execute_python_command,
-    execute_pip_command
+    execute_pip_command,
 ]
