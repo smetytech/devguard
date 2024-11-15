@@ -1,4 +1,5 @@
 colorama==0.4.6
+langchain-experimental==0.3.3
 langchain-community==0.3.7
 langchain-core==0.3.18
 langchain-openai==0.2.8
