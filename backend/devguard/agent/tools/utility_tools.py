@@ -1,4 +1,4 @@
-from langchain_community.tools import DuckDuckGoSearchResults
+# from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.tools import tool
 
 from agent.tools.utils import _run_shell_command
