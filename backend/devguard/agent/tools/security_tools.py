@@ -2,6 +2,8 @@ from langchain_core.tools import tool
 
 from agent.tools.utils import _install_tool, _run_shell_command
 
+
+
 # Tool for scanning local file system with Trivy
 @tool
 def scan_trivy_file_system(target: str = ".") -> str:
@@ -10,6 +12,7 @@ def scan_trivy_file_system(target: str = ".") -> str:
     return _run_shell_command(
         f"trivy fs {target} --ignore-unfixed --severity HIGH,CRITICAL"
     )
+
 
 # Tool for scanning GitHub repository with Trivy
 @tool
@@ -20,12 +23,14 @@ def scan_trivy_github_repo(repo_url: str) -> str:
         f"trivy repo {repo_url} --ignore-unfixed --severity HIGH,CRITICAL"
     )
 
+
 # Tool for scanning Git repository with TruffleHog
 @tool
 def scan_trufflehog() -> str:
     """Scan Git repository for secrets across all file types using trufflehog."""
     # Run TruffleHog command to scan for secrets, outputting in JSON format
     return _run_shell_command("trufflehog --json .")
+
 
 # Tool for scanning files for sensitive data patterns
 @tool
@@ -46,6 +51,7 @@ def scan_sensitive_data(filepath: str) -> str:
     # Return matches or a message if no sensitive data found
     return matches if matches else "No sensitive data found."
 
+
 # Tool for installing the 'safety' package
 @tool
 def install_safety() -> str:
@@ -53,12 +59,14 @@ def install_safety() -> str:
     # Use _install_tool utility to install 'safety' via pip
     return _install_tool("safety", "pip install safety")
 
+
 # Tool for installing the 'trufflehog' package
 @tool
 def install_trufflehog() -> str:
     """Ensure that the 'trufflehog' tool is installed."""
     # Use _install_tool utility to install 'trufflehog' via pip
     return _install_tool("trufflehog", "pip install trufflehog")
+
 
 # Tool for installing Trivy
 @tool
@@ -72,6 +80,7 @@ def install_trivy() -> str:
             "| sh -s -- -b /usr/local/bin"
         ),
     )
+
 
 # List of all security tools available for use
 security_tools = [
