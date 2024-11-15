@@ -7,7 +7,7 @@ COPY . .
 
 RUN uv venv
 
-RUN . /app/.venv/bin/activate
+RUN . .venv/bin/activate
 
 RUN uv pip install -r requirements.txt
 
