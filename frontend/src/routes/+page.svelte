@@ -62,7 +62,7 @@
 	}
 
 	async function handleKeyboardShortcuts(event: KeyboardEvent) {
-		if (event.metaKey && event.key.toLowerCase() === 'p') {
+		if (event.key.toLowerCase() === 'p') {
 			event.preventDefault();
 
 			await handleSubmit(
@@ -70,9 +70,9 @@
 			);
 		}
 
-		if (event.ctrlKey && event.key.toLowerCase() === 'r') {
+		if (event.key.toLowerCase() === 'r') {
 			await handleSubmit(
-				"CTF Challenge (GPT-Assisted): Your mission is to infiltrate the authentication system of a FastAPI backend at http://192.168.213.44:8000 and retrieve the flag hidden behind a protected endpoint. The flag will be a JSON message confirming your successful access. To complete this challenge, follow these steps: Explore the API: Use the FastAPI OpenAPI documentation (likely accessible at http://192.168.213.44:8000/docs or http://192.168.213.44:8000/openapi.json) to identify the authentication endpoint and any other potentially useful endpoints. Brute-force Login: Use Hydra to brute-force the authentication endpoint using the following resources: Password list: /root/devguard/backend/devguard/examples/web-pentest/rockyou.txt User list: /root/devguard/backend/devguard/examples/web-pentest/users.txt Retrieve the Flag: Once authenticated, explore the API to find the endpoint containing the flag. Use the credentials obtained during the brute-force attack to access the protected resource. Do not stop untill you find the successful authentication flag. Do not ask for any requests from the human user. Success_message: 'Authenticated successfully!' The flag should be the guessed credentials. Please return this. After you found them, do not execute any other tools."
+				"CTF Challenge (GPT-Assisted): Your mission is to infiltrate the authentication system of a FastAPI backend at http://localhost:8000 and retrieve the flag hidden behind a protected endpoint. The flag will be a JSON message confirming your successful access. To complete this challenge, follow these steps: Explore the API: Use the FastAPI OpenAPI documentation (likely accessible at http://localhost:8000/docs or http://localhost:8000/openapi.json) to identify the authentication endpoint and any other potentially useful endpoints. Brute-force Login: Use Hydra to brute-force the authentication endpoint using the following resources: Password list: /root/devguard/backend/devguard/examples/web-pentest/rockyou.txt User list: /root/devguard/backend/devguard/examples/web-pentest/users.txt Retrieve the Flag: Once authenticated, explore the API to find the endpoint containing the flag. Use the credentials obtained during the brute-force attack to access the protected resource. Do not stop untill you find the successful authentication flag. Do not ask for any requests from the human user. Success_message: 'Authenticated successfully!' The flag should be the guessed credentials. Please return this. After you found them, do not execute any other tools."
 			);
 		}
 	}
