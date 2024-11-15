@@ -1,14 +1,11 @@
 # FastAPI framework
-fastapi==0.95.2
+fastapi==0.115.0
 
 # ASGI server for running FastAPI
-uvicorn[standard]==0.22.0
+uvicorn[standard]==0.32.0
 
 # WebSocket support
 websockets==11.0.3
-
-# For running security tools
-subprocess-run==1.2.0
 
 # Optional: Add tools like Trivy and Trufflehog if their integrations are pip-based
 # trivy==0.x.x (if available via pip, otherwise use system installation)
