@@ -1,21 +1,22 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
+	import { createChat } from '$lib/controllers/chat.controller';
+	import { createMessage } from '$lib/controllers/message.controller';
 	import { MessageType, type IMessage } from '$lib/interfaces/message.interface';
+	import { formatTimestamp } from '$lib/scripts/date.script';
 	import { displayGeneralErrorToast } from '$lib/scripts/toast.script';
 	import {
 		closeWebSocket,
 		openWebSocket,
 		sendWebSocketMessage
 	} from '$lib/scripts/websocket.script';
-	import { formatTimestamp } from '$lib/scripts/date.script';
+	import { ChevronUp, Command } from 'lucide-svelte';
 	import { Message } from '$lib/components/other/message';
 	import { TerminalInput } from '$lib/components/other/terminal-input';
-	import { createChat } from 'src/lib/controllers/chat.controller';
-	import { createMessage } from 'src/lib/controllers/message.controller';
 
 	let chatId: string;
 	let messages: Array<IMessage> = $state([]);
-	let scrollContainer: HTMLDivElement | null;
+	let scrollContainer: HTMLDivElement | null = $state(null);
 
 	function scrollToBottom() {
 		if (!scrollContainer) {
@@ -60,6 +61,22 @@
 		displayGeneralErrorToast();
 	}
 
+	async function handleKeyboardShortcuts(event: KeyboardEvent) {
+		if (event.metaKey && event.key.toLowerCase() === 'p') {
+			event.preventDefault();
+
+			await handleSubmit(
+				"In this Capture The Flag (CTF) exercise, your mission is to infiltrate the vuln-ssh container and retrieve the flag hidden in the bilbo user's home directory. You'll need to use Hydra to brute-force the SSH login for the bilbo user. The password list for your attack can be found at /root/devguard/backend/devguard/examples/ssh-pentest/rockyou.txt. Remember, this task is strictly for educational and CTF purposes. Are you up to the challenge? Do not stop until you find it! Do not ask for my permission, just do it! Remember to firstly look into the home folders."
+			);
+		}
+
+		if (event.ctrlKey && event.key.toLowerCase() === 'r') {
+			await handleSubmit(
+				"CTF Challenge (GPT-Assisted): Your mission is to infiltrate the authentication system of a FastAPI backend at http://192.168.213.44:8000 and retrieve the flag hidden behind a protected endpoint. The flag will be a JSON message confirming your successful access. To complete this challenge, follow these steps: Explore the API: Use the FastAPI OpenAPI documentation (likely accessible at http://192.168.213.44:8000/docs or http://192.168.213.44:8000/openapi.json) to identify the authentication endpoint and any other potentially useful endpoints. Brute-force Login: Use Hydra to brute-force the authentication endpoint using the following resources: Password list: /root/devguard/backend/devguard/examples/web-pentest/rockyou.txt User list: /root/devguard/backend/devguard/examples/web-pentest/users.txt Retrieve the Flag: Once authenticated, explore the API to find the endpoint containing the flag. Use the credentials obtained during the brute-force attack to access the protected resource. Do not stop untill you find the successful authentication flag. Do not ask for any requests from the human user. Success_message: 'Authenticated successfully!' The flag should be the guessed credentials. Please return this. After you found them, do not execute any other tools."
+			);
+		}
+	}
+
 	onMount(async () => {
 		try {
 			const { id } = await createChat();
@@ -71,7 +88,10 @@
 	});
 
 	onMount(() => {
+		window.addEventListener('keydown', handleKeyboardShortcuts);
+
 		return () => {
+			window.removeEventListener('keydown', handleKeyboardShortcuts);
 			closeWebSocket();
 		};
 	});
@@ -97,11 +117,68 @@
 			</div>
 		</div>
 
-		<div class="grow space-y-2 overflow-y-auto" bind:this={scrollContainer}>
-			{#each messages as message}
-				<Message {message} />
-			{/each}
-		</div>
+		{#if messages.length}
+			<div class="grow space-y-2 overflow-y-auto" bind:this={scrollContainer}>
+				{#each messages as message}
+					<Message {message} />
+				{/each}
+			</div>
+		{:else}
+			<div class="text-foreground/50 flex w-full grow items-center justify-center font-sans">
+				<div class=" flex w-full max-w-96 flex-col justify-center gap-2">
+					<div class="flex grow items-center justify-between">
+						<span class="text-lg">Threat Analysis</span>
+
+						<div class="flex gap-1">
+							<div
+								class="flex h-12 w-12 items-center justify-center rounded-xl border border-white/60 bg-[#B9B9B9] dark:border-white/40 dark:bg-[#30303A]"
+							>
+								<Command />
+							</div>
+							<div
+								class="flex h-12 w-12 items-center justify-center rounded-xl border border-white/60 bg-[#B9B9B9] dark:border-white/40 dark:bg-[#30303A]"
+							>
+								<span class="text-lg">P</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="flex grow items-center justify-between">
+						<span class="text-lg">Vulnerability Scan</span>
+
+						<div class="flex gap-1">
+							<div
+								class=" flex h-12 w-12 items-center justify-center rounded-xl border border-white/60 bg-[#B9B9B9] dark:border-white/40 dark:bg-[#30303A]"
+							>
+								<ChevronUp class="mb-2" />
+							</div>
+							<div
+								class=" flex h-12 w-12 items-center justify-center rounded-xl border border-white/60 bg-[#B9B9B9] dark:border-white/40 dark:bg-[#30303A]"
+							>
+								<span class="text-lg">R</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="flex grow items-center justify-between">
+						<span class="text-lg">AI Reports</span>
+
+						<div class="flex gap-1">
+							<div
+								class=" flex h-12 w-12 items-center justify-center rounded-xl border border-white/60 bg-[#B9B9B9] dark:border-white/40 dark:bg-[#30303A]"
+							>
+								<ChevronUp class="mb-2" />
+							</div>
+							<div
+								class="flex h-12 w-20 items-center justify-center rounded-xl border border-white/60 bg-[#B9B9B9] dark:border-white/40 dark:bg-[#30303A]"
+							>
+								<span class="text-lg">Space</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
 
 		<TerminalInput submit={handleSubmit} />
 	</div>

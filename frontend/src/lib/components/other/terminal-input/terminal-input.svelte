@@ -65,5 +65,5 @@
 		oninput={handleInput}
 	></textarea>
 
-	<CornerDownLeft class="mt-auto" />
+	<CornerDownLeft class="text-foreground/50 mt-auto" />
 </form>
