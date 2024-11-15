@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevGuard Chat</title>
+    <title>DevGuard WebSocket test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -107,21 +107,27 @@
     </style>
 </head>
 <body>
-    <h1>DevGuard WebSocket Chat</h1>
+    <h1>DevGuard WebSocket Test</h1>
     <form action="" onsubmit="sendMessage(event)">
         <input type="text" id="messageText" autocomplete="off" placeholder="Type a message or command..." />
         <button><span>Send</span></button>
     </form>
     <ul id="messages"></ul>
     <script>
-        const ws = new WebSocket("ws://localhost:8000/ws/valid-token-123");
+        // Establish a WebSocket connection
+        const ws = new WebSocket("ws://localhost:8000/ws");
 
-        ws.onmessage = function(event) {
+        // Handle WebSocket connection events
+        ws.onopen = () => {
+            console.log("Connected to WebSocket server");
+        };
+
+        ws.onmessage = (event) => {
             const messages = document.getElementById('messages');
             const message = document.createElement('li');
             message.textContent = event.data;
 
-            // Differentiate system vs. user messages
+            // Differentiate between self and broadcast messages
             if (event.data.startsWith("You wrote:")) {
                 message.classList.add('self');
             }
@@ -132,14 +138,24 @@
             messages.scrollTop = messages.scrollHeight;
         };
 
+        ws.onerror = (error) => {
+            console.error("WebSocket error:", error);
+        };
+
+        ws.onclose = () => {
+            console.log("Disconnected from WebSocket server");
+        };
+
+        // Send a message via WebSocket
         function sendMessage(event) {
+            event.preventDefault();
             const input = document.getElementById("messageText");
             const message = input.value.trim();
+
             if (message) {
                 ws.send(message);
-                input.value = '';
+                input.value = ''; // Clear the input field
             }
-            event.preventDefault();
         }
     </script>
 </body>
