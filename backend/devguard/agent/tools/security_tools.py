@@ -1,11 +1,21 @@
-
 from langchain_core.tools import tool
+
 from agent.tools.utils import _install_tool, _run_shell_command
 
+
 @tool
-def scan_trivy(target: str = ".") -> str:
-    """Scan a project directory or Docker image for vulnerabilities using Trivy."""
-    return _run_shell_command(f"trivy fs {target} --ignore-unfixed --severity HIGH,CRITICAL")
+def scan_trivy_file_system(target: str = ".") -> str:
+    """Scan your local projects for Vulnerabilities, Misconfigurations, Secrets, and Licenses using Trivy."""
+    return _run_shell_command(
+        f"trivy fs {target} --ignore-unfixed --severity HIGH,CRITICAL"
+    )
+
+@tool
+def scan_trivy_github_repo(repo_url: str) -> str:
+    """Scan a GitHub repository for Vulnerabilities, Misconfigurations, Secrets, and Licenses using Trivy."""
+    return _run_shell_command(
+        f"trivy repo {repo_url} --ignore-unfixed --severity HIGH,CRITICAL"
+    )
 
 
 @tool
@@ -45,12 +55,16 @@ def install_trivy() -> str:
     """Ensure that the 'trivy' tool is installed."""
     return _install_tool(
         "trivy",
-        "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin"
+        (
+            "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh "
+            "| sh -s -- -b /usr/local/bin"
+        ),
     )
 
 
-scan_tools = [
-    scan_trivy,
+security_tools = [
+    scan_trivy_file_system,
+    scan_trivy_github_repo,
     scan_trufflehog,
     scan_sensitive_data,
     install_safety,

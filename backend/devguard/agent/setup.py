@@ -3,8 +3,9 @@ from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 
-from agent.tools.scan_tools import scan_tools
+from agent.tools.security_tools import security_tools
 from agent.tools.utility_tools import utility_tools
+from agent.tools.git_tools import github_tools
 
 # Create the OpenAI Model
 model = ChatOpenAI(
@@ -50,7 +51,7 @@ You are polite and respectful, maintaining a professional tone suitable for assi
 At the start of the conversation, you should create a folder where you will do all your tasks. The folder should be named as a `workspace`. To create a folder, use the `mkdir` command. Use only the `workspace` directory.
 """
 
-tools = [*scan_tools, *utility_tools]
+tools = [*security_tools, *utility_tools, *github_tools]
 
 # Create the agent
 graph = create_react_agent(
