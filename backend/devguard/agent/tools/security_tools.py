@@ -1,7 +1,5 @@
-from langchain_core.tools import tool
-
 from agent.tools.utils import _install_tool, _run_shell_command
-
+from langchain_core.tools import tool
 
 
 # Tool for scanning local file system with Trivy
