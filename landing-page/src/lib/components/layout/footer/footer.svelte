@@ -1,0 +1,105 @@
+<footer class="border-t border-slate-800 bg-background">
+	<nav class="mx-auto flex max-w-[80rem] flex-col gap-8 p-8 lg:flex-row lg:gap-24 lg:p-12">
+		<div class="space-y-5">
+			<a class="flex items-center gap-2" href="/">
+				<img class="h-8 w-8" src="/images/svg/dev-guard.svg" alt="dev guard" />
+				<span class="font-roboto text-2xl font-bold">DevGuard</span>
+			</a>
+
+			<div class="flex items-center gap-12">
+				<a
+					class="flex items-center gap-3"
+					href="https://www.linkedin.com/company/smetytech"
+					target="_blank"
+				>
+					<svg
+						width="25"
+						height="24"
+						viewBox="0 0 25 24"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path
+							fill-rule="evenodd"
+							clip-rule="evenodd"
+							d="M12.4428 1.75H12.5572C14.7479 1.74999 16.4686 1.74998 17.812 1.93059C19.1886 2.11568 20.2809 2.50271 21.1391 3.36091C21.9973 4.21911 22.3843 5.31137 22.5694 6.68802C22.75 8.03144 22.75 9.75214 22.75 11.9428V12.0572C22.75 14.2479 22.75 15.9686 22.5694 17.312C22.3843 18.6886 21.9973 19.7809 21.1391 20.6391C20.2809 21.4973 19.1886 21.8843 17.812 22.0694C16.4686 22.25 14.7479 22.25 12.5572 22.25H12.4428C10.2521 22.25 8.53144 22.25 7.18802 22.0694C5.81137 21.8843 4.71911 21.4973 3.86091 20.6391C3.00272 19.7809 2.61568 18.6886 2.43059 17.312C2.24998 15.9686 2.24999 14.2479 2.25 12.0572V11.9428C2.24999 9.75211 2.24998 8.03144 2.43059 6.68802C2.61568 5.31137 3.00272 4.21911 3.86091 3.36091C4.71911 2.50271 5.81137 2.11568 7.18802 1.93059C8.53143 1.74998 10.2521 1.74999 12.4428 1.75ZM8.50195 10.5C8.50195 9.94771 8.05424 9.5 7.50195 9.5C6.94967 9.5 6.50195 9.94771 6.50195 10.5V17C6.50195 17.5523 6.94967 18 7.50195 18C8.05424 18 8.50195 17.5523 8.50195 17V10.5ZM11.502 9C11.9073 9 12.2564 9.2412 12.4134 9.58791C13.0213 9.215 13.7365 9 14.502 9C16.7111 9 18.502 10.7909 18.502 13V17C18.502 17.5523 18.0542 18 17.502 18C16.9497 18 16.502 17.5523 16.502 17V13C16.502 11.8954 15.6065 11 14.502 11C13.3974 11 12.502 11.8954 12.502 13V17C12.502 17.5523 12.0542 18 11.502 18C10.9497 18 10.502 17.5523 10.502 17V10C10.502 9.44771 10.9497 9 11.502 9ZM8.75977 7C8.75977 7.69036 8.20012 8.25 7.50977 8.25H7.50078C6.81043 8.25 6.25078 7.69036 6.25078 7C6.25078 6.30964 6.81043 5.75 7.50078 5.75H7.50977C8.20012 5.75 8.75977 6.30964 8.75977 7Z"
+							fill="#CAD1E9"
+						/>
+					</svg>
+
+					<span class="text-lg font-medium">LinkedIn</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="grid grid-cols-2 gap-8 lg:w-fit">
+			<div class="space-y-6">
+				<span class="block text-lg font-medium">Get Started</span>
+
+				<ul class="space-y-3">
+					<li>
+						<a
+							class="-m-2 p-2 text-foreground/80 underline-offset-2 transition hover:text-foreground hover:underline"
+							href="#how-it-works"
+						>
+							<span>How it works</span>
+						</a>
+					</li>
+					<li>
+						<a
+							class="-m-2 p-2 text-foreground/80 underline-offset-2 transition hover:text-foreground hover:underline"
+							href="#features"
+						>
+							<span>Features</span>
+						</a>
+					</li>
+					<li>
+						<a
+							class="-m-2 p-2 text-foreground/80 underline-offset-2 transition hover:text-foreground hover:underline"
+							href="#pricing"
+						>
+							<span>Pricing</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="space-y-6">
+				<span class="block text-lg font-medium">Legal</span>
+
+				<ul class="space-y-3">
+					<li>
+						<a
+							class="-m-2 p-2 text-foreground/80 underline-offset-2 transition hover:text-foreground hover:underline"
+							href="/"
+						>
+							<span>Privacy policy</span>
+						</a>
+					</li>
+					<li>
+						<a
+							class="-m-2 p-2 text-foreground/80 underline-offset-2 transition hover:text-foreground hover:underline"
+							href="/"
+						>
+							<span>Terms of service</span>
+						</a>
+					</li>
+					<li>
+						<a
+							class="-m-2 p-2 text-foreground/80 underline-offset-2 transition hover:text-foreground hover:underline"
+							href="/"
+						>
+							<span>Prohibited use policy</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="border-t border-slate-800">
+		<div class="mx-auto max-w-[80rem] px-8 py-5 lg:px-12">
+			<span class="block text-sm text-foreground/80">© 2024 DevGuard. All rights reserved.</span>
+		</div>
+	</div>
+</footer>
