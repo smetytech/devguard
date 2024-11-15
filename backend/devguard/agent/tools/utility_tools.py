@@ -2,17 +2,17 @@ from langchain_community.tools import DuckDuckGoSearchResults
 from langchain_core.tools import tool
 from agent.tools.utils import _run_shell_command
 
-@tool
-def web_search(query: str) -> str:
-    """Use this to search on the web"""
-    search = DuckDuckGoSearchResults(num_results=10)
-    return search.invoke(query)
+# @tool
+# def web_search(query: str) -> str:
+#     """Use this to search on the web for a specific user information."""
+#     search = DuckDuckGoSearchResults(num_results=10)
+#     return search.invoke(query)
 
 
 @tool
 def execute_shell_command(commands: list[str]) -> str:
     """Execute a sequence of shell commands. Provide a list of commands to execute in order."""
-    return _run_shell_command(" ".join(commands))
+    return _run_shell_command("; ".join(commands))
 
 
 @tool
@@ -55,7 +55,7 @@ def check_tool_is_installed(command: str) -> str:
 
 
 utility_tools = [
-    web_search,
+    # web_search,
     execute_shell_command,
     read_file,
     write_file,
