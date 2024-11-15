@@ -65,7 +65,10 @@ def write_file(filepath: str, content: str) -> str:
 
 @tool
 def check_tool_is_installed(command: str) -> str:
-    "Use this to see if a tool is installed"
+    """Use this to see if a tool is installed
+    Args:
+        command: Command to test if a tool is installed, usually it has a flag -v or --version
+    """
     shell_tool = ShellTool()
     return shell_tool.run({"commands": [command]})
     

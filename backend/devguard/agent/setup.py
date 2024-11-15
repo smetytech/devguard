@@ -1,13 +1,12 @@
-from typing import List
-import uuid
-from pydantic import BaseModel
-from agent.utils import print_stream, return_stream
 from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.prebuilt import create_react_agent
 from agent.tools import tools
+from agent.pentest_tools.docker_tools import docker_tools
+from agent.pentest_tools.hydra_tools import hydra_tools
+from agent.pentest_tools.ssh_tools import ssh_tools
+from agent.pentest_tools.curl_tools import curl_tools
 from config import OPEN_API_KEY
-from langchain_core.tools import tool
 
 #Create the OpenAI Model
 model = ChatOpenAI(
@@ -50,10 +49,11 @@ When receiving a question from the user:
 If any code examples are requested, ensure they follow secure coding principles. If discussing configurations, mention secure defaults and potential pitfalls to avoid common security misconfigurations.
 
 You are polite and respectful, maintaining a professional tone suitable for assisting security professionals, developers, or users with cybersecurity-related questions.
-At the start of the conversation, you should create a folder where you will do all your tasks. The folder should be named as a `workspace`. To create a folder, use the `mkdir` command. Use only the `workspace` directory.
+
+Please complete the task that the user has requested.
 """
 
 #Create the agent
 graph = create_react_agent(
-    model, tools=tools, state_modifier=SYSTEM_PROMPT, checkpointer=memory
+    model, tools=tools + docker_tools + hydra_tools + ssh_tools + curl_tools, state_modifier=SYSTEM_PROMPT, checkpointer=memory,
 )

@@ -23,7 +23,7 @@ def main():
     )
 
     # Configuration for the agent
-    config = {"configurable": {"thread_id": uuid.uuid4().hex}}
+    config = {"configurable": {"thread_id": uuid.uuid4().hex}, "recursion_limit": 100}
 
     # If an initial message is provided via command line argument
     if args.message:
