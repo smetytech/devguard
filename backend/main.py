@@ -64,7 +64,6 @@ async def websocket_endpoint(websocket: WebSocket):
         while True:
             # Receive data from the client
             data = await websocket.receive_text()
-            print(f"Received data from client")
 
             # Configure the graph stream
             config = {"configurable": {"thread_id": "demo"}, "recursion_limit": 100}
